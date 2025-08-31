@@ -1,15 +1,8 @@
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 import salonHero from "@/assets/salon-hero.jpg";
 
 const HeroSection = () => {
-  const handleBookAppointment = () => {
-    // For now, scroll to contact section - will add booking system later
-    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  const handleViewServices = () => {
-    document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
-  };
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -43,21 +36,11 @@ const HeroSection = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button 
-              variant="hero" 
-              size="xl"
-              onClick={handleBookAppointment}
-              className="w-full sm:w-auto"
-            >
-              Book Appointment Now
+            <Button asChild variant="hero" size="xl" className="w-full sm:w-auto">
+              <Link to="/booking">Book Appointment Now</Link>
             </Button>
-            <Button 
-              variant="elegant" 
-              size="xl"
-              onClick={handleViewServices}
-              className="w-full sm:w-auto"
-            >
-              See Our Services
+            <Button asChild variant="elegant" size="xl" className="w-full sm:w-auto">
+              <Link to="/services">See Our Services</Link>
             </Button>
           </div>
 
