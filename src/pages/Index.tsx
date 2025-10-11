@@ -9,7 +9,7 @@ import { Camera, Package, Calendar } from "lucide-react";
 
 const Index = () => {
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen" role="main">
       <HeroSection />
       <AboutSection />
       
