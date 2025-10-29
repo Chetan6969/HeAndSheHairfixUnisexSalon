@@ -7,26 +7,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Clock, IndianRupee, User, Phone, Mail, MessageSquare } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
-
-interface Service {
-  id: string;
-  name: string;
-  category: string;
-  description: string;
-  price: number;
-  duration_minutes: number;
-}
-
-interface Package {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  services: string[];
-  target_audience: string;
-}
+import { dummyServices, dummyPackages, Service, Package } from "@/data/dummyData";
 
 interface BookingForm {
   customerName: string;
@@ -43,9 +25,8 @@ const Booking = () => {
   const location = useLocation();
   const { toast } = useToast();
   
-  const [services, setServices] = useState<Service[]>([]);
-  const [packages, setPackages] = useState<Package[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [services] = useState<Service[]>(dummyServices);
+  const [packages] = useState<Package[]>(dummyPackages);
   const [submitting, setSubmitting] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   
@@ -61,8 +42,6 @@ const Booking = () => {
   });
 
   useEffect(() => {
-    fetchData();
-    
     // Pre-select service or package from location state
     if (location.state?.selectedService) {
       setBookingForm(prev => ({
@@ -79,30 +58,6 @@ const Booking = () => {
     }
   }, [location.state]);
 
-  const fetchData = async () => {
-    try {
-      const [servicesResult, packagesResult] = await Promise.all([
-        supabase.from("services").select("*").order("category", { ascending: true }),
-        supabase.from("packages").select("*").order("price", { ascending: false })
-      ]);
-
-      if (servicesResult.error) throw servicesResult.error;
-      if (packagesResult.error) throw packagesResult.error;
-
-      setServices(servicesResult.data || []);
-      setPackages(packagesResult.data || []);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      toast({
-        title: "Error",
-        description: "Failed to load booking data. Please refresh the page.",
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const categories = [
     { id: "all", name: "All Services" },
     { id: "hair", name: "Hair Services" },
@@ -116,7 +71,6 @@ const Booking = () => {
 
   const toggleService = (service: Service) => {
     if (bookingForm.selectedPackage) {
-      // Clear package if selecting individual services
       setBookingForm(prev => ({
         ...prev,
         selectedPackage: null,
@@ -136,7 +90,7 @@ const Booking = () => {
     setBookingForm(prev => ({
       ...prev,
       selectedPackage: pkg,
-      selectedServices: [] // Clear individual services
+      selectedServices: []
     }));
   };
 
@@ -149,23 +103,18 @@ const Booking = () => {
 
   const calculateDuration = () => {
     if (bookingForm.selectedPackage) {
-      return 180; // 3 hours for packages
+      return 180;
     }
     return bookingForm.selectedServices.reduce((total, service) => total + service.duration_minutes, 0);
   };
 
   const generateTimeSlots = () => {
     const slots = [];
-    const startHour = 8; // 8 AM
-    const endHour = 22; // 10 PM
-    
-    for (let hour = startHour; hour < endHour; hour++) {
+    for (let hour = 8; hour < 22; hour++) {
       for (let minute = 0; minute < 60; minute += 30) {
-        const timeString = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
-        slots.push(timeString);
+        slots.push(`${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`);
       }
     }
-    
     return slots;
   };
 
@@ -193,31 +142,29 @@ const Booking = () => {
     setSubmitting(true);
 
     try {
+      // TODO: Send to MongoDB backend
       const bookingData = {
-        customer_name: bookingForm.customerName,
-        customer_phone: bookingForm.customerPhone,
-        customer_email: bookingForm.customerEmail,
-        appointment_date: bookingForm.appointmentDate,
-        appointment_time: bookingForm.appointmentTime,
-        service_ids: bookingForm.selectedServices.map(s => s.id),
-        package_id: bookingForm.selectedPackage?.id || null,
-        total_amount: calculateTotal(),
-        payment_status: "pending",
-        status: "confirmed",
+        customerName: bookingForm.customerName,
+        customerPhone: bookingForm.customerPhone,
+        customerEmail: bookingForm.customerEmail,
+        appointmentDate: bookingForm.appointmentDate,
+        appointmentTime: bookingForm.appointmentTime,
+        services: bookingForm.selectedServices.map(s => s.name).join(", "),
+        package: bookingForm.selectedPackage?.name || null,
+        totalAmount: calculateTotal(),
+        notes: bookingForm.notes,
       };
 
-      const { error } = await supabase
-        .from("bookings")
-        .insert([bookingData]);
+      console.log("Booking data to send:", bookingData);
 
-      if (error) throw error;
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
       toast({
         title: "Booking Confirmed!",
         description: "Your appointment has been booked successfully. We'll contact you soon for confirmation.",
       });
 
-      // Reset form
       setBookingForm({
         customerName: "",
         customerPhone: "",
@@ -229,7 +176,7 @@ const Booking = () => {
         notes: "",
       });
 
-      // Simulate Razorpay payment (for demo)
+      // Simulate Razorpay
       setTimeout(() => {
         toast({
           title: "Payment Initiated",
@@ -249,18 +196,9 @@ const Booking = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="text-center">Loading booking form...</div>
-      </div>
-    );
-  }
-
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-foreground mb-4">Book Your Appointment</h1>
           <p className="text-xl text-muted-foreground">
@@ -313,7 +251,6 @@ const Booking = () => {
                 <CardDescription>Select individual services to customize your experience</CardDescription>
               </CardHeader>
               <CardContent>
-                {/* Category Filter */}
                 <div className="flex flex-wrap gap-2 mb-4">
                   {categories.map((category) => (
                     <Button
@@ -327,7 +264,6 @@ const Booking = () => {
                   ))}
                 </div>
 
-                {/* Services Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {filteredServices.map((service) => (
                     <div
@@ -364,7 +300,6 @@ const Booking = () => {
 
           {/* Booking Form & Summary */}
           <div className="space-y-6">
-            {/* Booking Summary */}
             <Card>
               <CardHeader>
                 <CardTitle>Booking Summary</CardTitle>
@@ -418,7 +353,6 @@ const Booking = () => {
               </CardContent>
             </Card>
 
-            {/* Booking Form */}
             <Card>
               <CardHeader>
                 <CardTitle>Your Details</CardTitle>
@@ -482,12 +416,12 @@ const Booking = () => {
                     <Input
                       id="appointmentDate"
                       type="date"
-                      min={new Date().toISOString().split('T')[0]}
                       value={bookingForm.appointmentDate}
                       onChange={(e) => setBookingForm(prev => ({
                         ...prev,
                         appointmentDate: e.target.value
                       }))}
+                      min={new Date().toISOString().split('T')[0]}
                       required
                     />
                   </div>
@@ -504,14 +438,12 @@ const Booking = () => {
                         ...prev,
                         appointmentTime: e.target.value
                       }))}
-                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                      className="w-full px-3 py-2 border border-input rounded-md bg-background"
                       required
                     >
                       <option value="">Select time</option>
-                      {generateTimeSlots().map((time) => (
-                        <option key={time} value={time}>
-                          {time}
-                        </option>
+                      {generateTimeSlots().map((slot) => (
+                        <option key={slot} value={slot}>{slot}</option>
                       ))}
                     </select>
                   </div>
@@ -519,7 +451,7 @@ const Booking = () => {
                   <div className="space-y-2">
                     <Label htmlFor="notes" className="flex items-center">
                       <MessageSquare className="h-4 w-4 mr-1" />
-                      Special Requests (optional)
+                      Additional Notes
                     </Label>
                     <Textarea
                       id="notes"
@@ -528,18 +460,13 @@ const Booking = () => {
                         ...prev,
                         notes: e.target.value
                       }))}
-                      placeholder="Any special requests or notes for your appointment..."
                       rows={3}
+                      placeholder="Any special requests or preferences..."
                     />
                   </div>
 
-                  <Button 
-                    type="submit" 
-                    className="w-full" 
-                    size="lg"
-                    disabled={submitting}
-                  >
-                    {submitting ? "Processing..." : `Book & Pay ₹${calculateTotal().toLocaleString()}`}
+                  <Button type="submit" className="w-full" size="lg" disabled={submitting}>
+                    {submitting ? "Processing..." : `Book Now - ₹${calculateTotal().toLocaleString()}`}
                   </Button>
                 </form>
               </CardContent>

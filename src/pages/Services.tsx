@@ -60,14 +60,6 @@ const Services = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="text-center">Loading services...</div>
-      </div>
-    );
-  }
-
   return (
     <div className="container mx-auto px-4 py-8">
       {/* Header */}

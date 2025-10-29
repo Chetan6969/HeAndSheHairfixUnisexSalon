@@ -11,7 +11,6 @@ const Index = () => {
   return (
     <main className="min-h-screen" role="main">
       <HeroSection />
-      <AboutSection />
       
       {/* Quick Links Section */}
       <section className="py-16 bg-accent/20">
@@ -68,8 +67,6 @@ const Index = () => {
         </div>
       </section>
       
-      <ServicesSection />
-      <TestimonialsSection />
       <ContactSection />
       
       {/* Footer */}

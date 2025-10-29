@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Scissors, Calendar, Package, Camera, MessageCircle } from "lucide-react";
+import ThemeToggle from "./ThemeToggle";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -49,8 +50,9 @@ const Navigation = () => {
             })}
           </div>
 
-          {/* Contact Button */}
-          <div className="hidden md:block">
+          {/* Contact Button & Theme Toggle */}
+          <div className="hidden md:flex items-center space-x-3">
+            <ThemeToggle />
             <Button asChild>
               <a href="tel:+916263587072">Call Now</a>
             </Button>
@@ -86,9 +88,12 @@ const Navigation = () => {
                 </Link>
               );
             })}
-            <Button asChild className="w-full mt-4">
-              <a href="tel:+916263587072">Call Now</a>
-            </Button>
+            <div className="flex items-center space-x-3 mt-4">
+              <ThemeToggle />
+              <Button asChild className="flex-1">
+                <a href="tel:+916263587072">Call Now</a>
+              </Button>
+            </div>
           </div>
         )}
       </div>

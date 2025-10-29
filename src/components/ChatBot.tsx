@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { MessageCircle, X, Send } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
 
 interface Message {
   id: string;
@@ -73,18 +72,8 @@ const ChatBot = () => {
 
     setMessages(prev => [...prev, newMessage]);
 
-    // Save to database
-    try {
-      await supabase
-        .from("chat_messages")
-        .insert({
-          session_id: sessionId,
-          message: text,
-          sender,
-        });
-    } catch (error) {
-      console.error("Error saving message:", error);
-    }
+    // TODO: Save to MongoDB database when backend is ready
+    console.log("Message saved:", { sessionId, text, sender });
   };
 
   const handleSendMessage = async () => {

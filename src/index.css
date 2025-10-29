@@ -2,112 +2,111 @@
 @tailwind components;
 @tailwind utilities;
 
-/* He & She Hairfix Salon Design System */
+/* He & She Hairfix Salon Design System - Black & Gray Theme */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 0 0% 98%;
+    --foreground: 0 0% 10%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 0 0% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 0 0% 10%;
 
-    /* Salon Primary Colors - Deep Purple */
-    --primary: 258 77% 52%;
+    /* Black & Gray Primary */
+    --primary: 0 0% 15%;
     --primary-foreground: 0 0% 98%;
-    --primary-light: 258 77% 62%;
-    --primary-dark: 258 77% 42%;
+    --primary-light: 0 0% 25%;
+    --primary-dark: 0 0% 8%;
 
-    /* Salon Accent Colors - Elegant Gold */
-    --accent: 43 96% 56%;
-    --accent-foreground: 222.2 84% 4.9%;
-    --accent-light: 43 96% 66%;
-    --accent-dark: 43 96% 46%;
+    /* Gray Accent Colors */
+    --accent: 0 0% 45%;
+    --accent-foreground: 0 0% 98%;
+    --accent-light: 0 0% 55%;
+    --accent-dark: 0 0% 35%;
 
-    /* Rose Gold Accent */
-    --rose-gold: 15 86% 75%;
-    --rose-gold-foreground: 222.2 84% 4.9%;
+    /* Silver Accent */
+    --rose-gold: 0 0% 70%;
+    --rose-gold-foreground: 0 0% 10%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 0 0% 92%;
+    --secondary-foreground: 0 0% 10%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 0 0% 88%;
+    --muted-foreground: 0 0% 40%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 258 77% 52%;
+    --border: 0 0% 85%;
+    --input: 0 0% 85%;
+    --ring: 0 0% 20%;
 
     --radius: 0.75rem;
 
-    /* Salon Gradients */
+    /* Black & Gray Gradients */
     --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
     --gradient-hero: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary-dark)) 50%, hsl(var(--accent)) 100%);
     --gradient-card: linear-gradient(145deg, hsl(var(--background)) 0%, hsl(var(--secondary)) 100%);
     --gradient-rose: linear-gradient(135deg, hsl(var(--rose-gold)), hsl(var(--accent-light)));
 
-    /* Salon Shadows */
-    --shadow-luxury: 0 25px 50px -12px hsl(var(--primary) / 0.25);
-    --shadow-card: 0 10px 25px -3px hsl(var(--primary) / 0.1);
-    --shadow-elegant: 0 4px 20px -2px hsl(var(--accent) / 0.15);
-
+    /* Shadows */
+    --shadow-luxury: 0 25px 50px -12px hsl(0 0% 0% / 0.2);
+    --shadow-card: 0 10px 25px -3px hsl(0 0% 0% / 0.1);
+    --shadow-elegant: 0 4px 20px -2px hsl(0 0% 0% / 0.08);
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 0 0% 8%;
+    --foreground: 0 0% 95%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 0 0% 12%;
+    --card-foreground: 0 0% 95%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 0 0% 12%;
+    --popover-foreground: 0 0% 95%;
 
-    /* Salon Primary Colors - Lighter in dark mode */
-    --primary: 258 77% 72%;
-    --primary-foreground: 222.2 84% 4.9%;
-    --primary-light: 258 77% 82%;
-    --primary-dark: 258 77% 62%;
+    /* Black & Gray Primary - Lighter in dark mode */
+    --primary: 0 0% 85%;
+    --primary-foreground: 0 0% 10%;
+    --primary-light: 0 0% 90%;
+    --primary-dark: 0 0% 75%;
 
-    /* Salon Accent Colors - Warmer in dark mode */
-    --accent: 43 96% 66%;
-    --accent-foreground: 222.2 84% 4.9%;
-    --accent-light: 43 96% 76%;
-    --accent-dark: 43 96% 56%;
+    /* Gray Accent Colors - Lighter in dark mode */
+    --accent: 0 0% 55%;
+    --accent-foreground: 0 0% 10%;
+    --accent-light: 0 0% 65%;
+    --accent-dark: 0 0% 45%;
 
-    /* Rose Gold Accent - Softer in dark mode */
-    --rose-gold: 15 86% 85%;
-    --rose-gold-foreground: 222.2 84% 4.9%;
+    /* Silver Accent - Brighter in dark mode */
+    --rose-gold: 0 0% 75%;
+    --rose-gold-foreground: 0 0% 10%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 0 0% 18%;
+    --secondary-foreground: 0 0% 95%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 0 0% 20%;
+    --muted-foreground: 0 0% 60%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 50%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 258 77% 72%;
+    --border: 0 0% 25%;
+    --input: 0 0% 25%;
+    --ring: 0 0% 80%;
 
     /* Dark mode gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary-dark)), hsl(var(--accent)));
     --gradient-hero: linear-gradient(135deg, hsl(var(--primary-dark)) 0%, hsl(var(--primary)) 50%, hsl(var(--accent-dark)) 100%);
     --gradient-card: linear-gradient(145deg, hsl(var(--card)) 0%, hsl(var(--secondary)) 100%);
     --gradient-rose: linear-gradient(135deg, hsl(var(--rose-gold)), hsl(var(--accent-light)));
 
     /* Dark mode shadows */
-    --shadow-luxury: 0 25px 50px -12px hsl(var(--primary) / 0.4);
-    --shadow-card: 0 10px 25px -3px hsl(var(--primary) / 0.2);
-    --shadow-elegant: 0 4px 20px -2px hsl(var(--accent) / 0.25);
+    --shadow-luxury: 0 25px 50px -12px hsl(0 0% 0% / 0.5);
+    --shadow-card: 0 10px 25px -3px hsl(0 0% 0% / 0.3);
+    --shadow-elegant: 0 4px 20px -2px hsl(0 0% 0% / 0.2);
   }
 }
 

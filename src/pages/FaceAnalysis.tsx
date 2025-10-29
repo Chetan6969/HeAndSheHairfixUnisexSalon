@@ -49,16 +49,27 @@ const FaceAnalysis = () => {
   const startCamera = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ 
-        video: { facingMode: "user" } 
+        video: { facingMode: "user", width: 1280, height: 720 } 
       });
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
+        // Ensure video plays
+        try {
+          await videoRef.current.play();
+        } catch (playError) {
+          console.log("Video autoplay handled by browser");
+        }
         setIsCameraOn(true);
+        toast({
+          title: "Camera Ready",
+          description: "Position yourself and click capture when ready!",
+        });
       }
     } catch (error) {
+      console.error("Camera error:", error);
       toast({
         title: "Camera Error",
-        description: "Unable to access camera. Please try uploading an image instead.",
+        description: "Unable to access camera. Please check permissions or try uploading an image instead.",
         variant: "destructive",
       });
     }
